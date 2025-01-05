@@ -1,11 +1,10 @@
-import { createRouter } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import RulesView from "../views/AboutView.vue";
 import SignupView from "../views/SignUpView.vue";
-import SigninView from "../views/SignInView.vue";
+import SignInView from "../views/SignInView.vue";
 import EditPickView from "../views/EditPickView.vue";
 import AdminView from "../views/AdminView.vue"
-import { createWebHistory } from "vue-router";
 
 const routes = [
   {
@@ -26,7 +25,7 @@ const routes = [
   {
     path: "/signin",
     name: "signin",
-    component: SigninView
+    component: SignInView
   },
   {
     path: "/editpicks",
