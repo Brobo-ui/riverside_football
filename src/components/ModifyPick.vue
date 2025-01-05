@@ -5,23 +5,23 @@
                 <v-row>
                     <v-col>
                         <v-select
-                            v-model="selectedUser"
                             :items="users"
-                            item-text="name"
-                            placeholder="Username"
+                            item-title="name"
+                            item-value="id"
                             label="Username" 
-                            v-on:change="getPicks(selectedUser)"/>
+                            v-model="selectedUser"
+                            />
                         <div v-if="showModifyPicks">
                             <v-select
                                 v-model="picksSlot1"
                                 label="Slot 1"
-                                item-text="team"
+                                item-title="team"
                                 :items="slot1Picks"
                                 required />
                             <v-select
                                 v-model="picksSlot2"
                                 label="Slot 2"
-                                item-text="team"
+                                item-title="team"
                                 :items="slot2Picks"
                                 required />
                             <v-text-field
@@ -75,15 +75,16 @@ export default {
         })
             .catch(error => this.setError(error, "Something went wrong!"));
     },
+    watch: {
+        selectedUser(newValue) {
+            this.showModifyPicks = true;
+            this.getPicks(newValue);
+        }
+    },
     methods: {
-        getPicks(selectedUser) {
-            this.users.forEach(element => {
-                if (element.name == selectedUser) {
-                    this.currentUserId = element.id;
-                    this.currentUsername = element.name;
-                    this.showModifyPicks = true;
-                }
-            });
+        getPicks(selectedUserId) {
+            console.log("Selected user:" + selectedUserId)
+            this.currentUserId = selectedUserId;
             this.secured.get('/api/v1/picks')
                 .then(response => {
                     this.slot1Picks = response.data;
