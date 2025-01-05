@@ -8,13 +8,18 @@
             <v-btn to="/rules">Rules</v-btn>
             <v-btn to="/signup">Sign Up</v-btn>
             <v-btn to="/signin" v-if="!this.signedIn">Sign In</v-btn>
-            <v-btn to="/admin" v-if="this.isAdmin">Admin</v-btn>
-            <v-btn to="/" @click.prevent="signOut" v-if="this.signedIn">Sign Out</v-btn>
+            <v-btn to="/admin">Admin</v-btn>
+            <!-- <v-btn to="/" @click.prevent="signOut" v-if="this.signedIn">Sign Out</v-btn> -->
         </v-col>
       </v-row>
       <v-row>
         <v-col>
           <PicksTable :userid="currentUserId" :username="currentUser" />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <PicksTable v-for="pick in picksData" :key="pick.id" :userid="pick.id" :username="pick.name" />
         </v-col>
       </v-row>
     </v-container>
@@ -31,14 +36,29 @@ import PicksTable from '@/components/PicksTable.vue';
   },
   data() {
     return {
-      currentUserId: 0,
-      currentUsername: '',
-      signedIn: false,
+      currentUserId: Number(localStorage.userId),
+      currentUser: '',
+      signedIn: localStorage.signedIn,
       isAdmin: false,
+      picksData: Array,
     }
   },
   created() {
-    this.secured.get('/api/v1/picks/')
+    if(localStorage.signedIn) {
+      this.secured.get('/api/v1/users/'+localStorage.userId).then(response => {
+        //TODO: set the admin flag from this response to the current user
+        this.currentUser = response.data.name;
+        console.log(response);
+      })
+    }
+
+    this.secured.get('/api/v1/users').then(response => {
+      //TODO: remove the logged in user from the picksData array
+      // so that their picks are not displayed twice
+      this.picksData = response.data;
+      console.log(response);
+    })
+    
   }
 };
 </script>

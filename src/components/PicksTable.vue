@@ -11,7 +11,7 @@
 <template>
   <div>
     <h3>{{username}}</h3>
-    <v-simple-table
+    <v-table
       dark
       dense
       class="pick-table"
@@ -30,7 +30,7 @@
           <td>{{ pick.pick2 }}</td>
         </tr>
       </tbody>
-    </v-simple-table>
+    </v-table>
   </div>
 </template>
 <script>

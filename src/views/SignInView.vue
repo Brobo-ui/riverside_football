@@ -35,7 +35,7 @@
 
 <script>
 export default {
-  name: 'SigninView',
+  name: 'SignInView',
   data () {
     return {
       valid: false,
@@ -85,7 +85,7 @@ export default {
     },
     checkSignedIn () {
       if (localStorage.signedIn) {
-        this.$router.replace('/')
+        // this.$router.replace('/')
       }
     }
   }
